@@ -6,7 +6,9 @@ function create() {
         width: 1000,
         height: 680,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true
         }
     })
     win.loadFile(path.resolve(__dirname, '../../renderer/pages/control/index.html'))

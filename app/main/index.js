@@ -3,7 +3,7 @@ const path = require('path')
 const isDev = require('electron-is-dev')
 const handleIPC = require('./ipc')
 const {create: createMainWindow, show: showMainWindow, close: closeMainWindow} = require('./windows/main')
-// const {create: createControlWindow} = require('./windows/control')
+const {create: createControlWindow} = require('./windows/control')
 if(require('electron-squirrel-startup')) app.quit()
 const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
@@ -21,9 +21,9 @@ if (!gotTheLock) {
     })
     // 创建 myWindow, 加载应用的其余部分, etc...
     app.on('ready', () => {
-        // createControlWindow()
+        createControlWindow()
         // 报错先注释掉 app.fp = require('geektime-fringerprint-example').getFringerprint()
-        createMainWindow()
+        //createMainWindow()
         handleIPC()
         require('./trayAndMenu')
         require('./robot.js')()

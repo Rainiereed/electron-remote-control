@@ -1,6 +1,7 @@
 const EventEmitter = require('events') 
 const peer = new EventEmitter()
-const {ipcRenderer, desktopCapturer} = require('electron')
+const {ipcRenderer, desktopCapturer} = require('electron');
+const { navigator, window, console } = require('globalthis/implementation');
 const pc = new window.RTCPeerConnection({})
 let dc = pc.createDataChannel('robotchannel', {reliable: false});
 console.log('before-opened', dc)
@@ -14,6 +15,29 @@ dc.onmessage = function(event) {
     console.log('message', event)
 }
 dc.onerror = (e) => {console.log(e)}
+
+async function getScreenStream() {
+    const sources = await desktopCapturer.getSources({types: ['window', 'screen']})
+
+    navigator.webkitGetUserMedia({
+        audio: false,
+        video: {
+            mandatory: {
+                chromeMediaSource: 'desktop',
+                chromeMediaSourceId: sources[0].id,
+                maxWidth: window.screen.width,
+                maxHeight: window.screen.height
+            }
+        }
+    }, (stream) => {
+        peer.emit('add-stream', stream)
+    }, (err) => {
+        // handle error
+        console.log(err)
+    })
+}
+getScreenStream()
+
 async function createOffer() {
     let offer = await pc.createOffer({
         offerToReceiveAudio: false,

@@ -1,17 +1,33 @@
 const {ipcMain, clipboard} = require('electron')
 const {create: createControlWindow, send: sendControlWindow} = require('./windows/control')
-const {send: sendMainWindow} = require('./windows/main')
+const {send: sendMainWindow} = require('./windows/main') 
 const signal = require('./signal')
 
 module.exports = function () {
-    ipcMain.handle('login', async () => {
+    /*ipcMain.handle('login', async () => {
         let {code} = await signal.invoke('login', null, 'logined')
         return code
+    })*/
+
+    // Tutorial mock, later comment it out
+    ipcMain.handle('login', async () => {
+        // mock first, return a 6 digits code
+        let code = Math.floor(Math.random()*(999999-100000) + 100000)
+        return code
     })
-    ipcMain.on('control', async (e, remote) => {
+
+    /*ipcMain.on('control', async (e, remote) => {
         // 这里是跟服务端的交互，成功后我们会唤起面板
         signal.send('control', {remote})
+    })*/
+
+    // Tutorial mock, later comment it out
+    ipcMain.on('control', async (e, remoteCode) => {
+        // Mock first. Tell the renderer now come to the control state
+        sendMainWindow('control-state-change', remoteCode, 1)
+        createControlWindow()
     })
+
     ipcMain.on('share-to-wechat', async (e, code) => {
         if(code) {
             clipboard.writeText(code.toString())
