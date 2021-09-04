@@ -8,7 +8,7 @@ function handleMouse(data) {
     let x = clientX * screen.width / video.width
     let y = clientY * screen.height / video.height
     console.log(x, y)
-    robot.moveMouse(x, y)
+    robot.moveMouse(x, y)  // Move the mouse to this point(x, y)
     robot.mouseClick()
 }
 
