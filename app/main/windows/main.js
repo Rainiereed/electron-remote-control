@@ -16,6 +16,10 @@ function create () {
         show: false,
     })
 
+    // Open the DevTools.
+    //win.webContents.openDevTools();
+   
+
     win.on('close', (e) => {
         if (willQuitApp) {
             win = null;
