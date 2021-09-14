@@ -3,6 +3,7 @@ const isDev = require('electron-is-dev')
 const path = require('path')
 
 let win
+// 应用退出的时候会把窗口关闭，变量willQuitApp来控制
 let willQuitApp = false
 function create () {
     win = new BrowserWindow({
@@ -19,12 +20,15 @@ function create () {
     // Open the DevTools.
     //win.webContents.openDevTools();
    
-
+    // 在关闭之前，这个事件会被调用
     win.on('close', (e) => {
+        // 应用退出的时候会把窗口关闭，就不会阻塞
         if (willQuitApp) {
-            win = null;
+            win = null; // 释放掉
         } else {
+            // 禁止这个窗口的关闭，假关闭
             e.preventDefault();
+            // 隐藏窗口
             win.hide();
         }
     })
@@ -50,6 +54,7 @@ function show() {
     win.show()
 }
 
+// 这样应用才能真的关掉
 function close() {
     willQuitApp = true
     win.close()
