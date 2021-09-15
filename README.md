@@ -9,6 +9,6 @@ Process
 5. The puppet terminal responds to the control commands
 
 Technical Key points:
-![1](/resources/tech-points-1.png)
-![2](/resources/tech-points-2.png)
-![3](/resources/tech-points-3.png)
+![1](/resources/Tech1.png)
+![2](/resources/Tech2.png)
+![3](/resources/Tech3.png)
