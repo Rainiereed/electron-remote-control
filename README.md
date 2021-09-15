@@ -8,4 +8,7 @@ Process
 4. The mouse and keyboard commands from the control terminal are sent to the puppet terminal 
 5. The puppet terminal responds to the control commands
 
-Technical Key points
+Technical Key points:
+![1](/resources/tech-points-1.png)
+![2](/resources/tech-points-2.png)
+![3](/resources/tech-points-3.png)
