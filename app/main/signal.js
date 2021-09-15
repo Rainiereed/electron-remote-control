@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 const EventEmitter = require('events');
 const signal = new EventEmitter();
 
-const ws = new WebSocket('ws://127.0.0.1:8010');
+const ws = new WebSocket('ws://127.0.0.1:8080'); // 这里面写自己的服务器。Johan电脑IP 192.168.10.174  My own Mac IP: 192.168.10.221
 ws.on('open', function open() {
     console.log('connect success')
 })

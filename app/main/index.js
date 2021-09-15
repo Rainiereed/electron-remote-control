@@ -26,6 +26,7 @@ if (!gotTheLock) {
     app.on('ready', () => {
         //createControlWindow()
         // 报错先注释掉 app.fp = require('geektime-fringerprint-example').getFringerprint()
+        app.fp = require('geektime-fringerprint-example').getFringerprint()
         createMainWindow()
         handleIPC()
         require('./trayAndMenu')

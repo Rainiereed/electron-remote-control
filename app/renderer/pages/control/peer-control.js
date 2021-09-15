@@ -3,7 +3,7 @@ const peer = new EventEmitter()
 const {ipcRenderer, desktopCapturer} = require('electron');
 const { navigator, window, console } = require('globalthis/implementation');
 const pc = new window.RTCPeerConnection({})
-let dc = pc.createDataChannel('robotchannel', {reliable: false});
+let dc = pc.createDataChannel('robotchannel', {reliable: false}); // 不需要它是必须可达的，允许一定的丢失
 console.log('before-opened', dc)
 dc.onopen = function() {
     console.log('opened')
@@ -68,21 +68,28 @@ window.setRemote = setRemote
 
 pc.onicecandidate = (e) => {
 	console.log('candidate', JSON.stringify(e.candidate))
-    ipcRenderer.send('forward', 'control-candidate', e.candidate)
-	// 告知其他人
+    if(e.candidate) {
+       ipcRenderer.send('forward', 'control-candidate', e.candidate)
+	   // 告知其他人
+    }
 }
+// 加入以下三行
+ipcRenderer.on('candidate', (e, candidate) =>{
+    addIceCandidate(candidate)
+})
 const candidates = []
 async function addIceCandidate(candidate) {
-    if(!candidate || !candidate.type) return
-    candidates.push(candidate)
+    if(candidate) {
+        candidates.push(candidate)
+    }
     if(pc.remoteDescription && pc.remoteDescription.type) {
-        for(let i = 0; i < candidates.length; i ++) {
+        for(let i = 0; i < candidates.length; i++) {
             await pc.addIceCandidate(new RTCIceCandidate(candidates[i]))
         }
         candidates = []
-    } 
+    }
 }
-window.addIceCandidate = addIceCandidate
+// window.addIceCandidate = addIceCandidate  去掉这一行
 
 pc.onaddstream = (e) => {
 	console.log('addstream', e)
